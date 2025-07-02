@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neeraj Kumar Nayak - Web Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#3B82F6',
+                            dark: '#60A5FA'
+                        },
+                        dark: {
+                            bg: '#121212',
+                            card: '#1E1E1E',
+                            accent: '#2563EB'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            scroll-behavior: smooth;
+        }
+        
+        /* Dark mode toggle */
+        .toggle-checkbox {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        .toggle-slot {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: #e9eef6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .dark .toggle-slot {
+            background-color: #374151;
+        }
+        
+        .toggle-button {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dark .toggle-button {
+            transform: translateX(30px);
+            background-color: #1a1a1a;
+        }
+        
+        .sun-icon {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            color: #f59e0b;
+            transition: opacity 0.3s ease;
+        }
+        
+        .moon-icon {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            color: #6b7280;
+            transition: opacity 0.3s ease;
+        }
+        
+        .dark .sun-icon {
+            opacity: 0.3;
+        }
+        
+        .dark .moon-icon {
+            color: #c4b5fd;
+            opacity: 1;
+        }
+        
+        .sun-icon {
+            opacity: 1;
+        }
+        
+        .moon-icon {
+            opacity: 0.3;
+        }
+        
+        .profile-image {
+            background-color: #3B82F6;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        
+        .dark .profile-image {
+            background-color: #60A5FA;
+        }
+        
+        .skill-badge {
+            transition: all 0.3s ease;
+        }
+        
+        .skill-badge:hover {
+            transform: translateY(-3px);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #3B82F6;
+            transition: width 0.3s ease;
+        }
+        
+        .dark .nav-link::after {
+            background-color: #60A5FA;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateY(0);
+        }
+        
+        .github-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .github-link:hover {
+            transform: translateY(-2px);
+        }
+        
+        .github-link .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            margin-bottom: 5px;
+        }
+        
+        .github-link:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .certificate-card {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .certificate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .certificate-card .certificate-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .certificate-card:hover .certificate-icon {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-dark-bg dark:text-gray-200 min-h-screen">
+    <!-- Header with Navigation and Dark Mode Toggle -->
+    <header class="w-full bg-white dark:bg-dark-card shadow-md py-4 px-6 fixed top-0 z-10">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-primary-light dark:text-primary-dark">Neeraj Kumar Nayak</h1>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="#home" class="nav-link active text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Home</a>
+                <a href="#skills" class="nav-link text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Skills</a>
+                <a href="#certificates" class="nav-link text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Certificates</a>
+                <a href="#projects" class="nav-link text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Projects</a>
+                <a href="#contact" class="nav-link text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Contact</a>
+                <a href="https://github.com/Neeraj8603" target="_blank" class="github-link text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 flex items-center gap-1">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <!-- Dark Mode Toggle -->
+                <label class="toggle-slot" for="darkmode-toggle">
+                    <input type="checkbox" id="darkmode-toggle" class="toggle-checkbox">
+                    <div class="toggle-button"></div>
+                    <div class="sun-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="moon-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </label>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-800 dark:text-gray-200 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="mobile-menu absolute top-full left-0 w-full bg-white dark:bg-dark-card shadow-md md:hidden">
+            <div class="flex flex-col p-4 space-y-4">
+                <a href="#home" class="text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Home</a>
+                <a href="#skills" class="text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Skills</a>
+                <a href="#certificates" class="text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Certificates</a>
+                <a href="#projects" class="text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Projects</a>
+                <a href="#contact" class="text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Contact</a>
+                <a href="https://github.com/Neeraj8603" target="_blank" class="text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 flex items-center gap-2">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-6">
+        <div class="max-w-4xl mx-auto">
+            <!-- Profile Section -->
+            <section id="home" class="bg-white dark:bg-dark-card rounded-xl shadow-md p-8 mb-8">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+                    <div class="profile-image">
+                        N
+                    </div>
+		
+                    <div class="text-center md:text-left">
+                        <h2 class="text-3xl font-bold mb-2">Neeraj Kumar Nayak</h2>
+                        <h3 class="text-xl text-primary-light dark:text-primary-dark font-medium mb-4">Tech Enthusiast</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl">
+                            Aspiring Software Developer with strong problem-solving skills, DSA expertise, and practical experience in AI/ML and full-stack development, seeking to contribute to cutting-edge projects.
+                        </p>
+                        <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+                            
+                               <a href="final.pdf" class="bg-primary-light hover:bg-blue-600 dark:bg-dark-accent dark:hover:bg-blue-500 text-white px-4 py-2 rounded-md transition-colors duration-300 flex items-center gap-2"><button 
+
+download >Download Resume</button></a>
+                            
+                            <a href="" target="_blank" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-md transition-colors duration-300 flex items-
+
+center gap-2">
+			<button class="b2" onclick="document.location='https://www.linkedin.com/in/neerajnayak'">Visit LinkedIN</button>
+                                
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Skills Section -->
+            <section id="skills" class="bg-white dark:bg-dark-card rounded-xl shadow-md p-8 mb-8">
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-code text-primary-light dark:text-primary-dark"></i> Skills
+                </h2>
+                <div class="flex flex-wrap gap-3">
+                    <span class="skill-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-3 py-1 rounded-full">HTML5</span>
+                    <span class="skill-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-3 py-1 rounded-full">CSS3</span>
+                    <span class="skill-badge bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 px-3 py-1 rounded-full">JavaScript</span>
+                    <span class="skill-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-3 py-1 rounded-full">React</span>
+                    <span class="skill-badge bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 px-3 py-1 rounded-full">Node.js</span>
+                    <span class="skill-badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 px-3 py-1 rounded-full">MongoDB</span>
+                    <span class="skill-badge bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200 px-3 py-1 rounded-full">MySQL</span>
+                    <span class="skill-badge bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200 px-3 py-1 rounded-full">Machine Learning</span>
+                    <span class="skill-badge bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 px-3 py-1 rounded-full">Git</span>
+                    <span class="skill-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-3 py-1 rounded-full">C++</span>
+	    <span class="skill-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-3 py-1 rounded-full">Python</span>
+                    <span class="skill-badge bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 px-3 py-1 rounded-full">Responsive Design</span>
+                </div>
+            </section>
+            
+            <!-- Certificates Section -->
+            <section id="certificates" class="bg-white dark:bg-dark-card rounded-xl shadow-md p-8 mb-8">
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-certificate text-primary-light dark:text-primary-dark"></i> Certificates
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Certificate 1 -->
+                    <a href="https://drive.google.com/file/d/1mY0kFg_F84RkQIiMJWOX96TUt4zU9mK0/view?usp=drive_linkiew" target="_blank" class="certificate-card border border-gray-200 dark:border-gray-700 rounded-lg 
+
+overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
+                        <div class="p-6 flex items-start gap-4">
+                            <div class="certificate-icon w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-award text-blue-600 dark:text-blue-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">FrontEnd Development</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                                    Collection of certificates showcasing expertise in various frontend development technologies and frameworks.From 
+                                </p>
+                                <div class="flex items-center text-primary-light dark:text-primary-dark">
+                                    <span class="text-sm font-medium">View Certificates</span>
+                                    <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- Certificate 2 -->
+                    <a href="https://matlabacademy.mathworks.com/progress/share/certificate.html?id=de38aa39-1ae2-4cb8-9954-2233a5e1f84a&" target="_blank" class="certificate-card border border-gray-200 dark:border-gray-700 
+
+rounded-lg overflow-hidden bg-gradient-to-br from-green-50 to-teal-50 dark:from-gray-800 dark:to-gray-900">
+                        <div class="p-6 flex items-start gap-4">
+                            <div class="certificate-icon w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-graduation-cap text-green-600 dark:text-green-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Machine Learning</h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                                    Professional certifications and achievements in Matlab Certified Machine Learning.
+                                </p>
+                                <div class="flex items-center text-primary-light dark:text-primary-dark">
+                                    <span class="text-sm font-medium">View Certificates</span>
+                                    <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="mt-6 text-center">
+                    <a href="https://drive.google.com/drive/folders/1PZTSpaXXuyEizCQiDgmMtIkUGYkjrreG" target="_blank" class="inline-flex items-center gap-2 text-primary-light dark:text-primary-dark hover:underline">
+                        <span>View All Certificates</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+            
+            <!-- Projects Section -->
+            <section id="projects" class="bg-white dark:bg-dark-card rounded-xl shadow-md p-8 mb-8">
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-laptop-code text-primary-light dark:text-primary-dark"></i> Projects
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Project 1 -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                            <i class="fas fa-shopping-cart text-white text-4xl"></i>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold mb-2">Shopping Trend Analysis</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                                Derived business insights from customer datasets, supporting data-driven marketing and inventory strategies.
+Applied Python libraries in real-world datasets, strengthening AI/ML foundations
+
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded">Machine Leaning</span>
+                                <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded">Pyhton</span>
+                                <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded">Classification Models</span>
+                            </div>
+                            <a href="https://github.com/Neeraj8603/Shopping-Trends-Analysis" target="_blank" class="text-primary-light dark:text-primary-dark hover:underline text-sm font-medium flex items-center gap-1">
+                                <span>View on GitHub</span>
+                                <i class="fas fa-external-link-alt text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 2 -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <div class="h-48 bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center">
+                            <i class="fas fa-tasks text-white text-4xl"></i>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold mb-2">Calculator App</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">
+                                For performing mathematical calculation. Supported by calculation history. 
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded">React</span>
+                                <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded">Node.js</span>
+                                <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded">Tailwind CSS</span>
+                            </div>
+                            <a href="https://github.com/Neeraj8603/Calculator" target="_blank" class="text-primary-light dark:text-primary-dark hover:underline text-sm font-medium flex items-center gap-1">
+                                <span>View on GitHub</span>
+                                <i class="fas fa-external-link-alt text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Contact Section -->
+            <section id="contact" class="bg-white dark:bg-dark-card rounded-xl shadow-md p-8">
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-envelope text-primary-light dark:text-primary-dark"></i> Get In Touch
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <p class="text-gray-600 dark:text-gray-300 mb-6">
+                            Feel free to reach out for collaborations or just a friendly chat.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                                    <i class="fas fa-envelope text-primary-light dark:text-primary-dark"></i>
+                                </div>
+                                <span class="text-gray-800 dark:text-gray-200">neeraj.nayak@gmail.com</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                                    <i class="fas fa-phone text-primary-light dark:text-primary-dark"></i>
+                                </div>
+                                <span class="text-gray-800 dark:text-gray-200">+91 8292687038</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-primary-light dark:text-primary-dark"></i>
+                                </div>
+                                <span class="text-gray-800 dark:text-gray-200">Ranchi , India</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                                    <i class="fab fa-github text-primary-light dark:text-primary-dark"></i>
+                                </div>
+                                <a href="https://github.com/Neeraj8603" target="_blank" class="text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">
+                                    github.com/Neeraj8603
+                                </a>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                                    <i class="fas fa-certificate text-primary-light dark:text-primary-dark"></i>
+                                </div>
+                                <a href="https://drive.google.com/drive/folders/1PZTSpaXXuyEizCQiDgmMtIkUGYkjrreG" target="_blank" class="text-gray-800 dark:text-gray-200 hover:text-primary-light dark:hover:text-primary-dark 
+
+transition-colors duration-300">
+                                    View My Certificates
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 flex gap-4">
+                            <a href="https://linkedin.com/in/neerajnayak" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-primary-light hover:text-white 
+
+dark:hover:bg-primary-dark transition-colors duration-300">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://github.com/Neeraj8603" target="_blank" class="github-link w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-
+
+primary-light hover:text-white dark:hover:bg-primary-dark transition-colors duration-300">
+                                <span class="tooltip">github.com/Neeraj8603</span>
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-primary-light hover:text-white dark:hover:bg-primary-dark 
+
+transition-colors duration-300">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                     <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+  <h3 class="text-lg font-medium mb-4">Send a Message</h3>
+  <form id="contactForm">
+    <div class="mb-4">
+      <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+      <input type="text" id="name" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 
+
+dark:focus:ring-blue-500">
+    </div>
+    <div class="mb-4">
+      <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+      <input type="email" id="email" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-
+
+400 dark:focus:ring-blue-500">
+    </div>
+    <div class="mb-4">
+      <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+      <textarea id="message" rows="4" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-
+
+blue-400 dark:focus:ring-blue-500"></textarea>
+    </div>
+    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-medium py-2 px-4 rounded-md transition-colors duration-300">
+      Send Message
+    </button>
+  </form>
+</div>
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  if (!name || !email || !message) {
+    alert("All fields are required!");
+    return;
+  }
+
+  console.log("Submitted:", { name, email, message });
+  alert("Message sent!");
+
+  // ? Clear all input fields
+  this.reset();
+});
+</script>
+
+            </section>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-dark-card py-6 px-6 shadow-inner">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-gray-600 dark:text-gray-400">
+                 2025 Neeraj Kumar Nayak. All rights reserved.
+            </p>
+            <div class="mt-3 flex flex-wrap justify-center gap-4">
+                <a href="https://github.com/Neeraj8603" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 inline-flex items-center gap-1">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1PZTSpaXXuyEizCQiDgmMtIkUGYkjrreG" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors 
+
+duration-300 inline-flex items-center gap-1">
+                    <i class="fas fa-certificate"></i>
+                    <span>Certificates</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        const darkModeToggle = document.getElementById('darkmode-toggle');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Check for saved theme preference or use the system preference
+        if (localStorage.getItem('darkMode') === 'true' || 
+            (!localStorage.getItem('darkMode') && 
+             window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            darkModeToggle.checked = true;
+        }
+        
+        // Toggle dark mode
+        darkModeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('darkMode', 'false');
+            }
+        });
+        
+        // Mobile menu toggle
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('open');
+            const isOpen = mobileMenu.classList.contains('open');
+            mobileMenuButton.innerHTML = isOpen ? 
+                '<i class="fas fa-times text-xl"></i>' : 
+                '<i class="fas fa-bars text-xl"></i>';
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+            });
+        });
+        
+        // Active link highlighting
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params=
+
+{r:'9512b1d1d23f7e2c',t:'MTc1MDE2NDg1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')
+
+[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement
+
+('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if
+
+(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&
+
+(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>   
